@@ -1,103 +1,37 @@
 # jbLib
 
-`jbLib` is a .NET library that provides MVVM utilities, including `RelayCommand` and `ObservableObject`, to simplify the implementation of the MVVM pattern in WPF applications.
+## Overview
+`jbLib` is a .NET library designed to provide MVVM utilities and SQL Server table management functionalities. This library includes observable objects, relay commands, and classes for interacting with SQL Server base tables.
 
-## Features
-
-- **RelayCommand**: A command implementation that relays its functionality to other objects by invoking delegates.
-- **ObservableObject**: A base class that implements `INotifyPropertyChanged` and `INotifyPropertyChanging` to simplify property change notifications.
-
-## Installation
-
-To install `jbLib`, add the project to your solution and reference it in your projects.
-
-## Usage
-
-### RelayCommand
-
-The `RelayCommand` class is used to create commands that can be bound to UI elements in WPF.
-
-```csharp
-using jbLib.mvvm;
-using System;
-
-public class MyViewModel
-{
-    public RelayCommand MyCommand { get; }
-
-    public MyViewModel()
-    {
-        MyCommand = new RelayCommand(ExecuteAction, CanExecuteAction);
-    }
-
-    private void ExecuteAction()
-    {
-        // Action to execute
-    }
-
-    private bool CanExecuteAction()
-    {
-        // Condition to determine if the action can be executed
-        return true;
-    }
-}
+## Project Structure
 
 
-using jbLib.mvvm;
-using Xunit;
 
-namespace [jbLib.Tests]
-{
-    public class RelayCommandTests
-    {
-        [Fact]
-        public void Execute_ShouldInvokeAction()
-        {
-            // Arrange
-            bool actionInvoked = false;
-            Action action = () => actionInvoked = true;
-            var command = new RelayCommand(action);
+## Getting Started
 
-            // Act
-            command.Execute(null);
+### Prerequisites
+- [.NET SDK](https://dotnet.microsoft.com/download) installed on your machine.
 
-            // Assert
-            Assert.True(actionInvoked);
-        }
+### Building the Project
+To build the project, navigate to the root directory and run:
+```sh
+dotnet build [lib.sln](http://_vscodecontentref_/#%7B%22uri%22%3A%7B%22%24mid%22%3A1%2C%22fsPath%22%3A%22%2Fhome%2Fjoachim%2Flab%2Flib%2Flib.sln%22%2C%22path%22%3A%22%2Fhome%2Fjoachim%2Flab%2Flib%2Flib.sln%22%2C%22scheme%22%3A%22file%22%7D%7D)
 
-        [Fact]
-        public void CanExecute_ShouldReturnTrue_WhenCanExecuteIsNull()
-        {
-            // Arrange
-            var command = new RelayCommand(() => { });
 
-            // Act
-            bool canExecute = command.CanExecute(null);
+Running Tests
+To run the tests, navigate to the jbLib.Tests directory and run:
 
-            // Assert
-            Assert.True(canExecute);
-        }
-
-        [Fact]
-        public void RaiseCanExecuteChanged_ShouldRaiseCanExecuteChangedEvent()
-        {
-            // Arrange
-            var command = new RelayCommand(() => { });
-            bool eventRaised = false;
-            command.CanExecuteChanged += (sender, args) => eventRaised = true;
-
-            // Act
-            command.RaiseCanExecuteChanged();
-
-            // Assert
-            Assert.True(eventRaised);
-        }
-    }
-}
-
+Project Components
+MVVM Utilities:
+    observableObject.cs:    Implements the INotifyPropertyChanged interface to provide property change notifications.
+    relayCommand.cs:        Implements the ICommand interface to handle command logic.
+SQL Server Utilities
+    BaseTables.cs:          Provides base functionality for SQL Server table interactions.
+    ClassFromTable.cs:      Represents a class generated from a SQL Server table.
 
 Contributing
-Contributions are welcome! Please fork the repository and submit a pull request.
+    Contributions are welcome! Please fork the repository and submit a pull request.
 
 License
-This project is licensed under the MIT License.
+This project is licensed under the MIT License. See the LICENSE file for details.
+
