@@ -12,7 +12,7 @@ namespace jbLib.Tests
         {
             // Arrange
             bool actionInvoked = false;
-            Action action = () => actionInvoked = true;
+            Action<object?> action = (obj) => actionInvoked = true;
             var command = new RelayCommand(action);
 
             // Act
@@ -26,7 +26,7 @@ namespace jbLib.Tests
         public void CanExecute_ShouldReturnTrue_WhenCanExecuteIsNull()
         {
             // Arrange
-            var command = new RelayCommand(() => { });
+            var command = new RelayCommand((obj) => { });
 
             // Act
             bool canExecute = command.CanExecute(null);
@@ -39,7 +39,7 @@ namespace jbLib.Tests
         public void CanExecute_ShouldReturnFalse_WhenCanExecuteReturnsFalse()
         {
             // Arrange
-            var command = new RelayCommand(() => { }, () => false);
+            var command = new RelayCommand((obj) => { }, (obj) => false);
 
             // Act
             bool canExecute = command.CanExecute(null);
@@ -52,7 +52,7 @@ namespace jbLib.Tests
         public void CanExecute_ShouldReturnTrue_WhenCanExecuteReturnsTrue()
         {
             // Arrange
-            var command = new RelayCommand(() => { }, () => true);
+            var command = new RelayCommand((obj) => { }, (obj) => true);
 
             // Act
             bool canExecute = command.CanExecute(null);
@@ -65,7 +65,7 @@ namespace jbLib.Tests
         public void RaiseCanExecuteChanged_ShouldRaiseCanExecuteChangedEvent()
         {
             // Arrange
-            var command = new RelayCommand(() => { });
+            var command = new RelayCommand((obj) => { });
             bool eventRaised = false;
             command.CanExecuteChanged += (sender, args) => eventRaised = true;
 
