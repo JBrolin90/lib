@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "jbLib", "jbLib\jbLib.csproj
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "jbLib.Tests", "jbLib.Tests\jbLib.Tests.csproj", "{0583AFF1-9BD3-44FC-BE71-2F3C1C7A6A65}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Login", "Login\Login.csproj", "{C096A95D-6E3C-4459-AF70-0890A8B50DDD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{0583AFF1-9BD3-44FC-BE71-2F3C1C7A6A65}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0583AFF1-9BD3-44FC-BE71-2F3C1C7A6A65}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0583AFF1-9BD3-44FC-BE71-2F3C1C7A6A65}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C096A95D-6E3C-4459-AF70-0890A8B50DDD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C096A95D-6E3C-4459-AF70-0890A8B50DDD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C096A95D-6E3C-4459-AF70-0890A8B50DDD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C096A95D-6E3C-4459-AF70-0890A8B50DDD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

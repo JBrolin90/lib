@@ -4,12 +4,12 @@ using System.Windows.Input;
 namespace jbLib.mvvm;
 
 
-public class RelayCommand(Action execute, Func<bool>? canExecute = null) : ICommand
+public class RelayCommand(Action<object?> execute, Func<object?, bool>? canExecute = null) : ICommand
 {
     public event EventHandler? CanExecuteChanged;
 
-    readonly Action _execute = execute;
-    readonly Func<bool>? _canExecute = canExecute;
+    readonly Action<object?> _execute = execute;
+    readonly Func<object?, bool>? _canExecute = canExecute;
 
     public void RaiseCanExecuteChanged()
     {
@@ -19,13 +19,13 @@ public class RelayCommand(Action execute, Func<bool>? canExecute = null) : IComm
     public bool CanExecute(object? parameter)
     {
         if (_canExecute != null)
-            return _canExecute();
+            return _canExecute(parameter);
         else
             return true;
     }
 
     public void Execute(object? parameter)
     {
-        _execute();
+        _execute(parameter);
     }
 }

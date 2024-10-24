@@ -20,6 +20,20 @@ namespace jbLib.SqlServer
 
         public ICommandBuilderWrapper CommandBuilder => (ICommandBuilderWrapper)_commandBuilderWrapper;
 
+        public bool CheckCredentials()
+        {
+            try
+            {
+                Connection.Open();
+                Connection.Close();
+            }
+            catch (SqlException)
+            {
+                return false;
+            }
+            return true;
+        }
+
         public SqlServerProxy(string connectionString)
         {
             this.connectionString = connectionString;
