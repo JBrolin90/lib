@@ -1,12 +1,12 @@
 using System.Threading.Tasks;
 using jbLib.mvvm;
-using Login.Models;
+using jbLib.Models;
 
-namespace Login.ViewModels;
+namespace jbLib.ViewModels;
 
 public class LoginViewModel : ObservableObject
 {
-    private DatabaseModel databaseModel = new();
+    private DatabaseLoginModel databaseModel = new();
     private string _server = string.Empty;
     private string _database = string.Empty;
     private string _username = string.Empty;

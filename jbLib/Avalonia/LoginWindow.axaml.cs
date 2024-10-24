@@ -1,7 +1,7 @@
 using Avalonia.Controls;
-using Login.ViewModels;
+using jbLib.ViewModels;
 
-namespace Login;
+namespace jbLib.Login;
 
 public partial class LoginWindow : Window
 {

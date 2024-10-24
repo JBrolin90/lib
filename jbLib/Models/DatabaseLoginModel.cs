@@ -1,7 +1,7 @@
 using System;
 using jbLib.SqlServer;
 
-namespace Login.Models;
+namespace jbLib.Models;
 
 public class CredentialsModel
 {
@@ -11,11 +11,11 @@ public class CredentialsModel
     public string Password { get; set; } = "P@ssw0rd!";
 }
 
-public class DatabaseModel
+public class DatabaseLoginModel
 {
     private CredentialsModel? _credentials;
 
-    public DatabaseModel()
+    public DatabaseLoginModel()
     {
     }
     public bool Login(CredentialsModel credentials)
