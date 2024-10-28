@@ -1,6 +1,4 @@
-using System;
-
-namespace jbLib.Services;
+namespace jbLib.services.MessengerService;
 
 public interface IMessenger
 {

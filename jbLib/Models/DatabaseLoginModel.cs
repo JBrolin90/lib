@@ -1,4 +1,7 @@
 using System;
+using System.ComponentModel;
+using Avalonia.Markup.Xaml.MarkupExtensions;
+using jbLib.mvvm;
 using jbLib.SqlServer;
 
 namespace jbLib.Models;
@@ -11,13 +14,25 @@ public class CredentialsModel
     public string Password { get; set; } = "P@ssw0rd!";
 }
 
-public class DatabaseLoginModel
+public class DatabaseLoginModel : ObservableObject
 {
     private CredentialsModel? _credentials;
+    public IDbProxy? _dbProxy = null;
+    public IDbProxy? DbProxy
+    {
+        get => _dbProxy;
+        set
+        {
+            OnPropertyChanging();
+            _dbProxy = value;
+            OnPropertyChanged();
+        }
+    }
 
     public DatabaseLoginModel()
     {
     }
+
     public bool Login(CredentialsModel credentials)
     {
         _credentials = credentials;
@@ -31,8 +46,8 @@ public class DatabaseLoginModel
         connectionString += $"Multi Subnet Failover=False ";
         Console.WriteLine(connectionString);
 
-        IDbProxy dbProxy = new SqlServerProxy(connectionString);
-        return dbProxy.CheckCredentials();
+        DbProxy = new SqlServerProxy(connectionString);
+        return DbProxy.CheckCredentials();
     }
 }
 

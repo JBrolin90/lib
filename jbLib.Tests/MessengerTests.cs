@@ -1,4 +1,5 @@
 using jbLib.Services;
+using jbLib.services.MessengerService;
 using Moq;
 
 namespace jbLib.Tests;

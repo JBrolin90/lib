@@ -1,12 +1,16 @@
 using System.Threading.Tasks;
 using jbLib.mvvm;
 using jbLib.Models;
+using jbLib.SqlServer;
+using jbLib.Services;
+using jbLib.services.MessengerService;
 
 namespace jbLib.ViewModels;
 
 public class LoginViewModel : ObservableObject
 {
-    private DatabaseLoginModel databaseModel = new();
+    private IMessenger messenger;
+    private DatabaseLoginModel databaseModel;
     private string _server = string.Empty;
     private string _database = string.Empty;
     private string _username = string.Empty;
@@ -14,8 +18,18 @@ public class LoginViewModel : ObservableObject
     private string _message = "I wish you a good login experience!";
     public RelayCommand LoginCommand { get; }
 
+
+
     public LoginViewModel()
     {
+        messenger = new Messenger();
+        databaseModel = new();
+        LoginCommand = new RelayCommand(Login, CanLogin);
+    }
+    public LoginViewModel(IMessenger messenger, DatabaseLoginModel databaseModel)
+    {
+        this.messenger = messenger;
+        this.databaseModel = databaseModel;
         LoginCommand = new RelayCommand(Login, CanLogin);
     }
 
@@ -48,6 +62,8 @@ public class LoginViewModel : ObservableObject
         Message = "Logging in...";
         success = await Task.Run(DoLogin);
         Message = success ? "Login successful!" : "Login failed!";
+        if (success && databaseModel.DbProxy != null)
+            messenger.Send<IDbProxy>(databaseModel.DbProxy);
     }
 
     public string Server
