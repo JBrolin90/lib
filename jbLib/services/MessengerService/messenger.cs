@@ -1,13 +1,20 @@
 using System.Collections.Concurrent;
+using Xunit.Sdk;
 
 namespace jbLib.services.MessengerService
 {
+
+    public interface ISubscription<TMessage>
+    {
+        object Subscriber { get; }
+        Action<TMessage> Action { get; }
+    }
     // https://www.youtube.com/watch?v=-6Td1iLBXGw&t=1203s
     public class Messenger : IMessenger
     {
-        private readonly ConcurrentDictionary<Type, SynchronizedCollection<Subscription>> _subscriptions = new();
-        private readonly ConcurrentDictionary<Type, object> _currentState = new();
-        public void Send<TMessage>(TMessage message)
+        private static readonly ConcurrentDictionary<Type, SynchronizedCollection<Subscription>> _subscriptions = new();
+        private static readonly ConcurrentDictionary<Type, object> _currentState = new();
+        public static void Send<TMessage>(TMessage message)
         {
             if (message == null)
                 throw new ArgumentNullException(nameof(message));
@@ -18,7 +25,7 @@ namespace jbLib.services.MessengerService
             foreach (var subscription in _subscriptions[typeof(TMessage)])
                 subscription.Action(message);
         }
-        public void Subscribe<TMessage>(object subscriber, Action<object> action)
+        public static void Subscribe<TMessage>(object subscriber, Action<object> action)
         {
             if (!_subscriptions.ContainsKey(typeof(TMessage)))
                 _subscriptions.TryAdd(typeof(TMessage), new SynchronizedCollection<Subscription>());
@@ -30,7 +37,7 @@ namespace jbLib.services.MessengerService
                 newSubscriber.Action(_currentState[typeof(TMessage)]);
 
         }
-        public void UnSubscribe<TMessage>(object subscriber)
+        public static void UnSubscribe<TMessage>(object subscriber)
         {
             if (!_subscriptions.ContainsKey(typeof(TMessage)))
                 return;

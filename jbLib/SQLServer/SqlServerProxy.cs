@@ -41,7 +41,7 @@ namespace jbLib.SqlServer
             Command = new SqlCommand();
             DbDataAdapter x_adapter = new SqlDataAdapter();
             _adapterWrapper = new DbDataAdapterWrapper(x_adapter);
-            _commandBuilderWrapper = new CommandBuilderWrapper(new SqlCommandBuilder());
+            _commandBuilderWrapper = new CommandBuilderWrapper(new SqlCommandBuilder(x_adapter as SqlDataAdapter));
         }
 
         public DbCommand BaseTablesCommand()

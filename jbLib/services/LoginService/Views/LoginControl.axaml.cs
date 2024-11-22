@@ -1,6 +1,5 @@
-using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Markup.Xaml;
+using jbLib.services.LoginService.ViewModels;
 
 namespace jbLib.services.LoginService.Views;
 
@@ -8,6 +7,7 @@ public partial class LoginControl : UserControl
 {
     public LoginControl()
     {
+        DataContext=new LoginViewModel();   
         InitializeComponent();
     }
 }

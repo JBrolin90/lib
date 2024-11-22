@@ -31,12 +31,6 @@ public class DbTableCrud
         adapter.Fill(_dataSet, _tableName);
         Connection.Close();
         return _dataSet.Tables[_tableName] ?? throw new NullReferenceException();
-
-        // Connection.Open();
-        // Adapter.SelectCommand = command;
-        // Adapter.Fill(_dataSet, _tableName);
-        // Connection.Close();
-        // return _dataSet.Tables[_tableName] ?? throw new NullReferenceException();
     }
 
 
@@ -71,8 +65,9 @@ public class DbTableCrud
 
     public void CreateUpdateDelete()
     {
-        var adapter = _dbProxy.Adapter;
-        var commandBuilder = _dbProxy.CommandBuilder;
+        var adapter = Adapter; //_dbProxy.Adapter;
+        var commandBuilder = CommandBuilder; //_dbProxy.CommandBuilder;
+
 
         adapter.Fill(_dataSet, _tableName);
         commandBuilder.GetUpdateCommand();

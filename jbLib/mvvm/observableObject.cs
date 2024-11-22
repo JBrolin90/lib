@@ -17,4 +17,22 @@ public class ObservableObject : INotifyPropertyChanged
     {
         PropertyChanging?.Invoke(this, new PropertyChangingEventArgs(propertyName));
     }
+
+    protected virtual T GetField<T>(ref T field, [CallerMemberName] string? propertyName = null)
+    {
+        return field;
+    }
+
+    protected virtual bool SetField<T>(ref T field, T value, [CallerMemberName] string? propertyName = null)
+    {
+        if (EqualityComparer<T>.Default.Equals(field, value)) return false;
+        OnPropertyChanging(propertyName);
+        field = value;
+        OnPropertyChanged(propertyName);
+        return true;
+    }
+
+    public interface IDisposable
+    {
+    }
 }

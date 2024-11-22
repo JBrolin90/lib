@@ -6,9 +6,12 @@
         x:Class="jbLib.services.DialogService.DialogWindow"
         Width="500"
         Height="300"
-        FontSize="30"
-        HorizontalContentAlignment="Center"
-        VerticalContentAlignment="Center"
+        HorizontalContentAlignment="Stretch"
+        HorizontalAlignment="Stretch"
+        VerticalAlignment="Stretch"
+        VerticalContentAlignment="Stretch"
        Title="DialogWindow">
   This is the Dialog template!
 </Window>
+        <!-- FontSize="30" -->
+

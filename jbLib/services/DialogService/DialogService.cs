@@ -2,17 +2,17 @@ using Avalonia.Controls;
 
 namespace jbLib.services.DialogService;
 
-public class DialogService : IDialogService
+public class DialogService : IDialogService, IDisposable
 {
-    private readonly IDialogWindow? _dialog;
-    public readonly Dictionary<Type, Type> Mappings = new();
-    
-    public DialogService(IDialogWindow? dialog)
-    {
-        _dialog = dialog;   
-    }   
+    private IDialogWindow? _dialogContainer;
+    private static readonly Dictionary<Type, Type> Mappings = new();
 
-    public void RegisterDialog<TView, TViewModel>()
+    public DialogService(IDialogWindow? dialog = null)
+    {
+        _dialogContainer = dialog;
+    }
+
+    public static void RegisterDialog<TView, TViewModel>()
     {
         Mappings.Add(typeof(TViewModel), typeof(TView));
     }
@@ -20,19 +20,26 @@ public class DialogService : IDialogService
     {
         var type = Type.GetType($"ShowingDialogs.Views.{name}");
 
-        if (type != null) ShowDialogInternal(type, callback, null);
+        if (type != null) ShowDialogInternal(type, callback);
     }
 
     public void ShowDialog<TViewModel>(Action<string> callback)
     {
-        var type = Mappings[typeof(TViewModel)];
+        var modelType = typeof(TViewModel);
+        var type = Mappings[modelType];
         ShowDialogInternal(type, callback, typeof(TViewModel));
     }
 
-    private void ShowDialogInternal(Type type, Action<string> callback, Type? vmType)
+    public void CloseDialog()
     {
-        var dialog = _dialog ?? new DialogWindow() { Title = type.Name }  ;
-        dialog.Closed += EventHandler;
+        _dialogContainer?.Close();
+        _dialogContainer = null;
+    }
+
+    private void ShowDialogInternal(Type type, Action<string> callback, Type? vmType = null)
+    {
+        _dialogContainer ??= new DialogWindow() { Title = type.Name };
+        _dialogContainer.Closed += EventHandler;
 
         var content = Activator.CreateInstance(type) as Control ??
                       throw new InvalidOperationException("Could not create control");
@@ -43,15 +50,20 @@ public class DialogService : IDialogService
                      throw new InvalidOperationException("Could not create vm");
             content.DataContext = vm;
         }
-        dialog.Content = content;
+        _dialogContainer.Content = content;
 
-        dialog.Show();
+        _dialogContainer.Show();
         return;
 
         void EventHandler(object? sender, EventArgs e)
         {
-            dialog.Closed -= EventHandler;
-            callback(dialog.Result.ToString());
+            _dialogContainer.Closed -= EventHandler;
+            callback(obj: _dialogContainer.Result.ToString());
         }
+    }
+
+    public void Dispose()
+    {
+        _dialogContainer?.Close();
     }
 }
