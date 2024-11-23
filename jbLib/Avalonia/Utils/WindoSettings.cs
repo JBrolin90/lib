@@ -1,6 +1,8 @@
+using System.Drawing;
 using System.Text.Json;
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Platform;
 
 namespace jbLib.Avalonia.Utils;
 
@@ -41,13 +43,31 @@ public static class WindowSettingsManager
             throw new ArgumentException("Window must have name or windowKey must be provided");
 
         var settings = LoadAllSettings();
-        if (settings.TryGetValue(windowKey, out var windowSettings))
+        WindowSettings? windowSettings;
+        if (settings.TryGetValue(windowKey, out windowSettings))
         {
             window.Height = windowSettings.Height;
             window.Width = windowSettings.Width;
             window.Position = new PixelPoint(windowSettings.Left, windowSettings.Top);
             window.WindowState = windowSettings.WindowState;
         }
+        window.SecureWindIsInsideCurrentScreen(windowSettings ?? new WindowSettings());
+    }
+
+    private static WindowSettings SecureWindIsInsideCurrentScreen(this Window window, WindowSettings settings)
+    {
+        Screen screen = window.Screens.ScreenFromWindow(window) ?? window.Screens.Primary ?? throw new Exception("No screen found");
+        var screenBounds = screen.Bounds;
+        var windowBounds = new Rectangle((int)settings.Left, (int)settings.Top, (int)settings.Width, (int)settings.Height);
+        if (windowBounds.Right > screenBounds.Right || windowBounds.Left < screenBounds.X ||
+            windowBounds.Bottom > screenBounds.Bottom || windowBounds.Top < screenBounds.Y)
+        {
+            settings.Left = screenBounds.X;
+            settings.Top = screenBounds.Y;
+            settings.Width = screenBounds.Width;
+            settings.Height = screenBounds.Height;
+        }
+        return settings;
     }
 
     private static Dictionary<string, WindowSettings> LoadAllSettings()
