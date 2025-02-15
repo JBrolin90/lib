@@ -12,8 +12,7 @@
     <PackageReference Include="System.Collections" Version="4.3.0" />
     <PackageReference Include="System.Collections.Concurrent" Version="4.3.0" />
     <PackageReference Include="System.ServiceModel.Primitives" Version="8.1.1" />
-    <PackageReference Include="xunit" Version="2.9.3" />
-  </ItemGroup>
+      </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Avalonia\Utils\" />
