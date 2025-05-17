@@ -1,8 +1,7 @@
 using System.Data;
 using System.Data.Common;
-using jbLib.SqlServer;
 
-namespace jbLib.SqlServer;
+namespace jbLib.DataAccess.Common;
 
 public class DbDataAdapterWrapper : IDbDataAdapterWrapper
 {

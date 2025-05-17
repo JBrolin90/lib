@@ -1,7 +1,7 @@
 ﻿using System.Data;
 using System.Text;
 
-namespace jbLib.SqlServer;
+namespace jbLib.DataAccess.Common;
 
 public class BaseTables
 {

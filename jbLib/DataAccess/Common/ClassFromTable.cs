@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace jbLib.SqlServer;
+namespace jbLib.DataAccess.Common;
 
 public class ClassFromTable
 {

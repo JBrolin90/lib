@@ -1,5 +1,6 @@
 using jbLib.mvvm;
-using jbLib.SqlServer;
+using jbLib.DataAccess.Common;
+using jbLib.DataAccess.SqlServer;
 
 namespace jbLib.Models;
 

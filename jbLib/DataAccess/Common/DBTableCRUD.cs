@@ -1,7 +1,7 @@
 ﻿using System.Data.Common;
 using System.Data;
 
-namespace jbLib.SqlServer;
+namespace jbLib.DataAccess.Common;
 
 public class DbTableCrud
 {

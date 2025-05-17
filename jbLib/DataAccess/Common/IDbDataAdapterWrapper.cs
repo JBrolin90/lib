@@ -1,6 +1,6 @@
 using System.Data.Common;
 
-namespace jbLib.SqlServer;
+namespace jbLib.DataAccess.Common;
 
 public interface IDbDataAdapterWrapper
 {

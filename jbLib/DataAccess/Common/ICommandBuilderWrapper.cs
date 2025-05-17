@@ -1,5 +1,5 @@
 
-namespace jbLib.SqlServer;
+namespace jbLib.DataAccess.Common;
 
 public interface ICommandBuilderWrapper
 {

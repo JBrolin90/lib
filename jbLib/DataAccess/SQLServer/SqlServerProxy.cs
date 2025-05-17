@@ -1,8 +1,8 @@
 ﻿using Microsoft.Data.SqlClient;
-using System.Data;
 using System.Data.Common;
+using jbLib.DataAccess.Common;
 
-namespace jbLib.SqlServer
+namespace jbLib.DataAccess.SqlServer
 {
     public class SqlServerProxy : IDbProxy
     {
