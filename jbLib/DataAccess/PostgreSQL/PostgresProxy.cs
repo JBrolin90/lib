@@ -13,7 +13,7 @@ namespace jbLib.PostgreSQL
         private readonly IDbDataAdapterWrapper _adapterWrapper; // Uses the shared interface
         private readonly ICommandBuilderWrapper _commandBuilderWrapper; // Uses the shared interface
 
-        private string connStr = "Host=brolinsoft.com;Port=5432;Database=brolinso_DbAccessPOC;Username=brolinso_joachim;Password=Sqlserver2025";
+        private string connStr = "Host=lmde6;Port=5432;Database=postgres;Username=postgres;Password=postgres";
 
         // --- Interface Implementation ---
 
