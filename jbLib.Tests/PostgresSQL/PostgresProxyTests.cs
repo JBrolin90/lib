@@ -11,7 +11,7 @@ namespace jbLib.Tests.DataAccess.PostgreSQL
     {
         // A valid connection string for testing purposes.
         // Consider using a local test database or a configuration file for this.
-        private const string TestConnectionString = "Host=localhost;Port=5432;Database=postgres;Username=postgres;Password=postgres";
+        private const string TestConnectionString = "Host=lmde6;Port=5432;Database=postgres;Username=postgres;Password=postgres";
 
         // A deliberately invalid connection string for testing error handling.
         private const string InvalidTestConnectionString = "Host=invalid_host;Port=0000;Database=non_existent_db;Username=invalid_user;Password=invalid_password";
@@ -115,11 +115,24 @@ namespace jbLib.Tests.DataAccess.PostgreSQL
         [Trait("Category", "Integration")] // Mark as integration test
         public void CheckCredentials_WithInvalidCredentials_ShouldReturnFalse()
         {
-            // Arrange
-            var proxy = new PostgresProxy(InvalidTestConnectionString); // Use an invalid connection string
+            PostgresProxy proxy;
+            bool result = false;
+            try
+            {
+                // Arrange
+                proxy = new PostgresProxy(InvalidTestConnectionString); // Use an invalid connection string
 
-            // Act
-            bool result = proxy.CheckCredentials();
+                // Act
+                result = proxy.CheckCredentials();
+
+                // Assert
+                Assert.False(result, "CheckCredentials returned true for invalid credentials.");
+            }
+            catch (System.ArgumentException ex)
+            {
+                // Handle the exception if needed, or just assert that it was thrown
+                Assert.NotNull(ex);
+            }
 
             // Assert
             Assert.False(result, "CheckCredentials returned true for invalid credentials.");

@@ -5,7 +5,7 @@ using Npgsql; // For Npgsql-specific types if needed in tests
 using System.Data.Common; // For DbConnection, DbCommand
 using System; // For ArgumentNullException
 
-namespace jbLib.Tests.DataAccess.PostgreSQL
+namespace jbLib.xUnit.Tests.DataAccess.PostgreSQL
 {
     public class PostgresProxyTests
     {

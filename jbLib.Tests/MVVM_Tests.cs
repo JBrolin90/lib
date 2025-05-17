@@ -1,6 +1,6 @@
 ﻿using jbLib.mvvm;
 
-namespace jbLib.xUnitTests.MVVM_Tests;
+namespace jbLib.xUnitTests;
 
 public class MVVM_Tests
 {
