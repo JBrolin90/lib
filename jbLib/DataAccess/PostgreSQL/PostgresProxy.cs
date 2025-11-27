@@ -1,6 +1,7 @@
 using System.Data;
 using Npgsql;
 using System.Data.Common;
+using jbLib.DataAccess;
 using jbLib.DataAccess.Common;
 
 namespace jbLib.PostgreSQL
@@ -12,8 +13,6 @@ namespace jbLib.PostgreSQL
         private readonly NpgsqlCommand _command;
         private readonly IDbDataAdapterWrapper _adapterWrapper; // Uses the shared interface
         private readonly ICommandBuilderWrapper _commandBuilderWrapper; // Uses the shared interface
-
-        private string connStr = "Host=lmde6;Port=5432;Database=postgres;Username=postgres;Password=postgres";
 
         // --- Interface Implementation ---
 

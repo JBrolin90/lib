@@ -1,6 +1,7 @@
 ﻿using System.Data.Common;
+using jbLib.DataAccess.Common;
 
-namespace jbLib.DataAccess.Common;
+namespace jbLib.DataAccess;
 
 public interface IDbProxy
 {

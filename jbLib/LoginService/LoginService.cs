@@ -1,7 +1,7 @@
 using jbLib.Models;
 using jbLib.LoginService.ViewModels;
 using jbLib.MessengerService;
-using jbLib.DataAccess.Common;
+using jbLib.DataAccess;
 
 namespace jbLib.services.LoginService;
 
