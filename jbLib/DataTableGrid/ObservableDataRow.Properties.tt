@@ -1,24 +1,81 @@
 <#@ template language="C#" #>
 <#@ output extension=".cs" #>
+<#
+    // Define types here - add new types to this list only!
+    var valueTypes = new[] { "int", "bool", "double", "DateTime", "Guid", "decimal", "long" };
+    var refTypes = new[] { "string", "object" };
+    
+    // Helper to get C# type name for typeof()
+    string GetTypeOfName(string type) => type switch
+    {
+        "int" => "int",
+        "bool" => "bool",
+        "double" => "double",
+        "long" => "long",
+        "decimal" => "decimal",
+        "string" => "string",
+        "object" => "object",
+        _ => type
+    };
+    
+    // Helper to get property prefix
+    string GetPrefix(string type) => type switch
+    {
+        "int" => "Int",
+        "bool" => "Bool",
+        "double" => "Double",
+        "long" => "Long",
+        "decimal" => "Decimal",
+        "string" => "String",
+        "object" => "Object",
+        "DateTime" => "DateTime",
+        "Guid" => "Guid",
+        _ => type
+    };
+#>
 // Auto-generated - Do not edit manually
 // Generated: <#= DateTime.Now #>
+// To add a new type, add it to valueTypes or refTypes at the top of the .tt file
 
 using System;
+using System.ComponentModel;
 using System.Data;
 
 namespace jbLib.DataTableGrid
 {
     public partial class ObservableDataRow
     {
-
+        #region Generated Properties
 <# for (int i = 0; i < 256; i++) { #>
-        public int? Int<#= i #> { get => GetValue<int>(<#= i #>); set => SetValue(<#= i #>, value); }
-        public bool? Bool<#= i #> { get => GetValue<bool>(<#= i #>); set => SetValue(<#= i #>, value); }
-        public string? String<#= i #> { get => GetRefValue<string>(<#= i #>); set => SetRefValue(<#= i #>, value); }
-        public double? Double<#= i #> { get => GetValue<double>(<#= i #>); set => SetValue(<#= i #>, value); }
-        public DateTime? DateTime<#= i #> { get => GetValue<DateTime>(<#= i #>); set => SetValue(<#= i #>, value); }
-        public object? Object<#= i #> { get => GetRefValue<object>(<#= i #>); set => SetRefValue(<#= i #>, value); }
+<#     foreach (var t in valueTypes) { #>
+        public <#= t #>? <#= GetPrefix(t) #><#= i #> { get => GetValue<<#= t #>>(<#= i #>); set => SetValue(<#= i #>, value); }
+<#     } #>
+<#     foreach (var t in refTypes) { #>
+        public <#= t #>? <#= GetPrefix(t) #><#= i #> { get => GetRefValue<<#= t #>>(<#= i #>); set => SetRefValue(<#= i #>, value); }
+<#     } #>
 
 <# } #>
+        #endregion
+
+        #region Generated Event Handler
+        private void HandleColumnChanged(DataColumn column, int ordinal)
+        {
+            var dataType = column.DataType;
+<# foreach (var t in valueTypes) { #>
+            if (dataType == typeof(<#= GetTypeOfName(t) #>))
+            {
+                OnPropertyChanged($"<#= GetPrefix(t) #>{ordinal}");
+                return;
+            }
+<# } #>
+<# foreach (var t in refTypes) { #>
+            if (dataType == typeof(<#= GetTypeOfName(t) #>))
+            {
+                OnPropertyChanged($"<#= GetPrefix(t) #>{ordinal}");
+                return;
+            }
+<# } #>
+        }
+        #endregion
     }
 }

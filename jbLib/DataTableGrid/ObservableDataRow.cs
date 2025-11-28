@@ -14,7 +14,7 @@ public partial class ObservableDataRow : INotifyPropertyChanged, IDisposable
 
     public event PropertyChangedEventHandler? PropertyChanged;
 
-    #region called during setup before connecting to ItemsSource
+    #region Constructors & Lifecycle
     public ObservableDataRow()
     {
     }
@@ -58,7 +58,6 @@ public partial class ObservableDataRow : INotifyPropertyChanged, IDisposable
         if (value == DBNull.Value)
             return null;
 
-        // For object type, return as-is; for specific types, cast
         if (typeof(T) == typeof(object))
             return (T)value;
 
@@ -80,26 +79,12 @@ public partial class ObservableDataRow : INotifyPropertyChanged, IDisposable
     }
     #endregion
 
-    #region NotUsedByDataGrid
-    public DataRow Row => row;
-
-    private void Table_ColumnChanged(object sender, DataColumnChangeEventArgs e)
+    #region Event Handling
+    private void Table_ColumnChanged(object? sender, DataColumnChangeEventArgs e)
     {
         if (e.Row == row && e.Column != null)
         {
-            int ordinal = e.Column.Ordinal;
-            if (e.Column.DataType == typeof(int))
-                OnPropertyChanged($"Int{ordinal}");
-            else if (e.Column.DataType == typeof(bool))
-                OnPropertyChanged($"Bool{ordinal}");
-            else if (e.Column.DataType == typeof(double))
-                OnPropertyChanged($"Double{ordinal}");
-            else if (e.Column.DataType == typeof(string))
-                OnPropertyChanged($"String{ordinal}");
-            else if (e.Column.DataType == typeof(DateTime))
-                OnPropertyChanged($"DateTime{ordinal}");
-            else if (e.Column.DataType == typeof(Object))
-                OnPropertyChanged($"Object{ordinal}");
+            HandleColumnChanged(e.Column, e.Column.Ordinal);
         }
     }
 
@@ -107,8 +92,8 @@ public partial class ObservableDataRow : INotifyPropertyChanged, IDisposable
     {
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
-
-    public bool IsReadOnly => false;
     #endregion
 
+    public DataRow Row => row;
+    public bool IsReadOnly => false;
 }
