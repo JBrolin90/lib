@@ -172,39 +172,25 @@ The project demonstrates two different binding approaches:
 
 ## Usage
 
+To use the system, use the Factory to generate a grid from your table:
 
-To use the DataTableGridView control in your project, follow these steps:
-
-1. First, make sure you have a DataTable that you want to display. This could be created programmatically or loaded from a data source.
-
-2. Create an instance of the DataTableGridView, passing your DataTable to its constructor:
-
+1. Prepare your DataTable:
    ```csharp
-   DataTable myDataTable = // ... your DataTable creation or loading logic
-   DataTableGridView gridView = new DataTableGridView(myDataTable);
+   DataTable table = new DataTable();
+   table.Columns.Add("Name", typeof(string));
+   table.Rows.Add("Alice");
    ```
 
-3. The DataTableGridView will automatically set up the DataGrid with columns based on your DataTable structure. It uses the ObservableDataTable internally to wrap your DataTable and make it observable.
-
-4. You can now use this gridView in your Avalonia UI. For example, you might set it as the Content of a Window or add it to a parent control:
-
+2. Create the DataGrid using the factory:
    ```csharp
-   // If using it directly in a Window
-   this.Content = gridView;
-
-   // Or if adding to another control
-   parentControl.Children.Add(gridView);
+   DataGrid grid = DataTableGridFactory.Produce(table);
    ```
 
-5. The DataTableGridView handles the column generation automatically. It will create columns based on the DataTable structure, using the column names as headers.
+3. The grid is now ready to be used in your Avalonia UI. You can set it as the content of a window or add it to any parent control.
 
-6. The control uses indexed property binding internally (`[{column.Ordinal}].Value`), which allows for flexible and dynamic binding regardless of the column position in the table.
+### Example
 
-7. You don't need to manually set up bindings or create columns - the DataTableGridView handles this for you based on the DataTable structure.
-
-8. The resulting grid will support two-way binding, meaning changes in the UI will be reflected in the underlying DataTable, and vice versa.
-
-Here's a complete example of how you might use it in a Window class:
+Here's a complete example of using the factory in a window:
 
 ```csharp
 public class MainWindow : Window
@@ -213,27 +199,20 @@ public class MainWindow : Window
     {
         InitializeComponent();
         
-        // Create or load your DataTable
-        DataTable myDataTable = CreateSampleDataTable();
-
-        // Create the DataTableGridView
-        DataTableGridView gridView = new DataTableGridView(myDataTable);
-
-        // Set it as the content of the window
-        this.Content = gridView;
-    }
-
-    private DataTable CreateSampleDataTable()
-    {
+        // Prepare your DataTable
         DataTable table = new DataTable();
         table.Columns.Add("Name", typeof(string));
-        table.Columns.Add("Age", typeof(int));
-        table.Rows.Add("Alice", 30);
-        table.Rows.Add("Bob", 25);
-        return table;
+        table.Rows.Add("Alice");
+        table.Rows.Add("Bob");
+
+        // Create the DataGrid using the factory
+        DataGrid grid = DataTableGridFactory.Produce(table);
+
+        // Set it as the content of the window
+        this.Content = grid;
     }
 }
 ```
 
-This approach encapsulates the complexity of setting up a DataGrid for a DataTable, providing a simple interface for developers to use. The DataTableGridView handles the creation of the ObservableDataTable, sets up the necessary bindings, and manages the column generation, making it easy to display and interact with tabular data in your Avalonia UI application.
+This approach simplifies the process of displaying a DataTable in a DataGrid, handling all the necessary setup and binding automatically.
 
