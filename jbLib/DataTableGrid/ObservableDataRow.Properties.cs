@@ -1,5 +1,5 @@
 // Auto-generated - Do not edit manually
-// Generated: 11/28/2025 09:28:45
+// Generated: 11/28/2025 18:10:43
 // To add a new type, add it to valueTypes or refTypes at the top of the .tt file
 
 using System;
