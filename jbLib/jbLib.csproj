@@ -14,11 +14,23 @@
     <PackageReference Include="System.Collections" Version="4.3.0" />
     <PackageReference Include="System.Collections.Concurrent" Version="4.3.0" />
     <PackageReference Include="System.ServiceModel.Primitives" Version="8.1.1" />
-      </ItemGroup>
+  </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Avalonia\Utils\" />
     <Folder Include="MVVM\" />
   </ItemGroup>
+
+  <ItemGroup>
+    <DotNetCliToolReference Include="dotnet-t4-project-tool" Version="2.3.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <TextTemplate Include="**/*.tt" />
+  </ItemGroup>
+
+  <Target Name="TransformT4" BeforeTargets="BeforeBuild">
+    <Exec Command="t4 %(TextTemplate.Identity) -o %(TextTemplate.RelativeDir)%(TextTemplate.Filename).cs" />
+  </Target>
 
 </Project>

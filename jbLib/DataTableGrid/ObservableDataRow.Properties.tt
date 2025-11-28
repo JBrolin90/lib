@@ -1,0 +1,24 @@
+<#@ template language="C#" #>
+<#@ output extension=".cs" #>
+// Auto-generated - Do not edit manually
+// Generated: <#= DateTime.Now #>
+
+using System;
+using System.Data;
+
+namespace jbLib.DataTableGrid
+{
+    public partial class ObservableDataRow
+    {
+
+<# for (int i = 0; i < 256; i++) { #>
+        public int? Int<#= i #> { get => GetValue<int>(<#= i #>); set => SetValue(<#= i #>, value); }
+        public bool? Bool<#= i #> { get => GetValue<bool>(<#= i #>); set => SetValue(<#= i #>, value); }
+        public string? String<#= i #> { get => GetRefValue<string>(<#= i #>); set => SetRefValue(<#= i #>, value); }
+        public double? Double<#= i #> { get => GetValue<double>(<#= i #>); set => SetValue(<#= i #>, value); }
+        public DateTime? DateTime<#= i #> { get => GetValue<DateTime>(<#= i #>); set => SetValue(<#= i #>, value); }
+        public object? Object<#= i #> { get => GetRefValue<object>(<#= i #>); set => SetRefValue(<#= i #>, value); }
+
+<# } #>
+    }
+}

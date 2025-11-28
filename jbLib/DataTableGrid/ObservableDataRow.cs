@@ -7,8 +7,10 @@ namespace jbLib.DataTableGrid;
 /// <summary>
 /// Represents an observable row of data, wrapping a DataRow with ObservableDataCell objects.
 /// </summary>
-public partial class ObservableDataRow : INotifyPropertyChanged
+public partial class ObservableDataRow : INotifyPropertyChanged, IDisposable
 {
+    private DataRow row = null!;
+    private bool _disposed;
 
     public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -27,6 +29,16 @@ public partial class ObservableDataRow : INotifyPropertyChanged
         this.row = dataRow ?? throw new ArgumentNullException(nameof(dataRow));
         row.Table.ColumnChanged += Table_ColumnChanged;
     }
+
+    public void Dispose()
+    {
+        if (!_disposed)
+        {
+            if (row?.Table != null)
+                row.Table.ColumnChanged -= Table_ColumnChanged;
+            _disposed = true;
+        }
+    }
     #endregion
 
     #region Safe Accessors
@@ -41,7 +53,16 @@ public partial class ObservableDataRow : INotifyPropertyChanged
     {
         if (row == null || index >= row.Table.Columns.Count)
             return null;
-        return row[index] == DBNull.Value ? null : (T)row[index];
+
+        var value = row[index];
+        if (value == DBNull.Value)
+            return null;
+
+        // For object type, return as-is; for specific types, cast
+        if (typeof(T) == typeof(object))
+            return (T)value;
+
+        return value is T typed ? typed : null;
     }
 
     private void SetValue<T>(int index, T? value) where T : struct
@@ -69,12 +90,16 @@ public partial class ObservableDataRow : INotifyPropertyChanged
             int ordinal = e.Column.Ordinal;
             if (e.Column.DataType == typeof(int))
                 OnPropertyChanged($"Int{ordinal}");
+            else if (e.Column.DataType == typeof(bool))
+                OnPropertyChanged($"Bool{ordinal}");
             else if (e.Column.DataType == typeof(double))
                 OnPropertyChanged($"Double{ordinal}");
             else if (e.Column.DataType == typeof(string))
                 OnPropertyChanged($"String{ordinal}");
             else if (e.Column.DataType == typeof(DateTime))
                 OnPropertyChanged($"DateTime{ordinal}");
+            else if (e.Column.DataType == typeof(Object))
+                OnPropertyChanged($"Object{ordinal}");
         }
     }
 

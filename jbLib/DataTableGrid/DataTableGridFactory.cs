@@ -23,6 +23,8 @@ public static class DataTableGridFactory
             string binder;
             if (column.DataType == typeof(int))
                 binder = $"Int{i}";
+            else if (column.DataType == typeof(bool))
+                binder = $"Bool{i}";
             else if (column.DataType == typeof(string))
                 binder = $"String{i}";
             else if (column.DataType == typeof(double))
