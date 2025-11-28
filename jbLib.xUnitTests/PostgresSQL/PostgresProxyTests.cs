@@ -30,7 +30,7 @@ namespace jbLib.xUnit.Tests.DataAccess.PostgreSQL
         public void Constructor_WithNullConnectionString_ShouldThrowArgumentNullException()
         {
             // Arrange, Act & Assert
-            Assert.Throws<ArgumentNullException>(() => new PostgresProxy(null));
+            Assert.Throws<ArgumentNullException>(() => new PostgresProxy(null!));
         }
 
         [Fact]

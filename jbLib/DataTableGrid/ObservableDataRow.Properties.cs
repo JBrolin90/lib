@@ -10,7 +10,7 @@ namespace jbLib.DataTableGrid
     public partial class ObservableDataRow
     {
 
-        private readonly DataRow row;
+        private DataRow row = null!;
 
         public int? Int0
         {
